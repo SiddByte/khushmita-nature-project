@@ -26,4 +26,9 @@ urlpatterns = [
     path('service/', views.service, name='service'),
     path('about/', views.about, name='about'),
     path('contect/', views.contect1, name='contect'),
+    path('blog/', views.PostListView.as_view(), name='post_list'),
+    path('blog_detail/<int:id>/', views.blog_detail, name='blog_detail'),
+ 
+
+
 ]
