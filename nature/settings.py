@@ -138,3 +138,5 @@ EMAIL_HOST_USER = 'siddharth.sharma201819@gmail.com'
 EMAIL_HOST_PASSWORD = 'cmbg kvgw vlmn mtfg'
 
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+

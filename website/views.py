@@ -44,17 +44,50 @@ def events(request):
     return render(request, 'website/events.html')
 
 
+from django.shortcuts import redirect, render
+from django.core.mail import send_mail
+from .models import Contact
+from django.conf import settings
 
 def contect1(request):
     if request.method == "POST":
+
+        first_name = request.POST.get('first_name')
+        email = request.POST.get('email')
+        phone = request.POST.get('phone')
+        subject = request.POST.get('subject')
+        message = request.POST.get('message')
+
+        # Save to database
         Contact.objects.create(
-            first_name = request.POST.get('first_name'),
-            email = request.POST.get('email'),
-            phone = request.POST.get('phone'),
-            subject = request.POST.get('subject'),
-            message = request.POST.get('message'),
+            first_name=first_name,
+            email=email,
+            phone=phone,
+            subject=subject,
+            message=message,
         )
-        return redirect('/contect/')  # ya same page
+
+        # ✅ Send Email
+        full_message = f"""
+        Name: {first_name}
+        Email: {email}
+        Phone: {phone}
+        Subject: {subject}
+
+        Message:
+        {message}
+        """
+
+        send_mail(
+            subject=f"New Contact Form: {subject}",
+            message=full_message,
+            from_email=settings.DEFAULT_FROM_EMAIL,
+            recipient_list=[settings.EMAIL_HOST_USER],
+            fail_silently=False,
+        )
+
+        return redirect('/contect/')
 
     return render(request, 'website/contact.html')
+
 
